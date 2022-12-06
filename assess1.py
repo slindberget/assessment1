@@ -15,6 +15,11 @@ def read_contacts(conn):
     cur.close()
     return rows
 
+def delete_contact(conn, first_name):
+    cur = conn.cursor()
+    cur.execute(f"DELETE FROM contacts WHERE first_name = '{first_name}';")
+    cur.close()
+
 def add_contact(conn, first_name, last_name, title, organization):
     cur = conn.cursor()
     cur.execute(f"INSERT INTO contacts(first_name, last_name, title, organization) VALUES ('{first_name}', '{last_name}', '{title}', '{organization}');")
@@ -30,4 +35,6 @@ while True: ## REPL - Read Execute Program Loop
         title = input("  title: ")
         organization = input("Organization:  ")
         add_contact(conn, first_name, last_name, title, organization)
-
+    elif cmd == "DELETE":
+        first_name = input("  Name: ")
+        delete_contact(conn, first_name)
